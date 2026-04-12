@@ -1,0 +1,23 @@
+{
+  "name": "evuno",
+  "private": true,
+  "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "test": "turbo run test",
+    "db:migrate": "pnpm --filter @evuno/db migrate",
+    "db:seed": "pnpm --filter @evuno/db seed",
+    "docker:up": "docker compose up -d",
+    "docker:down": "docker compose down",
+    "setup": "bash scripts/setup.sh"
+  },
+  "devDependencies": {
+    "turbo": "latest",
+    "typescript": "^5.4.0"
+  },
+  "packageManager": "pnpm@9.15.4",
+  "engines": {
+    "node": ">=20.0.0"
+  }
+}

@@ -1,0 +1,63 @@
+# =============================================================================
+# evuno — Caddy reverse proxy config
+# Handles: auto HTTPS (Let's Encrypt), HTTP->HTTPS, WebSocket, gzip
+# =============================================================================
+
+# Local development (use localhost domains)
+# In production, replace with actual domains: charge.evuno.co, etc.
+
+:3080 {
+	reverse_proxy localhost:3000
+	header {
+		X-Evuno-App "charge"
+	}
+}
+
+:3081 {
+	reverse_proxy localhost:3001
+	header {
+		X-Evuno-App "navigate"
+	}
+}
+
+:3082 {
+	reverse_proxy localhost:3002
+	header {
+		X-Evuno-App "scout"
+	}
+}
+
+:4080 {
+	reverse_proxy localhost:4000
+	header {
+		X-Evuno-App "api"
+	}
+}
+
+# =============================================================================
+# Production config (uncomment when deploying)
+# =============================================================================
+# charge.evuno.co {
+# 	reverse_proxy localhost:3000
+# }
+#
+# navigate.evuno.co {
+# 	reverse_proxy localhost:3001
+# }
+#
+# scout.evuno.co {
+# 	reverse_proxy localhost:3002
+# }
+#
+# api.evuno.co {
+# 	reverse_proxy localhost:4000
+# }
+#
+# auth.evuno.co {
+# 	reverse_proxy localhost:8080
+# }
+#
+# # White-label operator subdomains
+# *.evuno.co {
+# 	reverse_proxy localhost:3000
+# }

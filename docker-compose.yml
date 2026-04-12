@@ -1,0 +1,134 @@
+version: '3.9'
+
+services:
+  # ---------------------------------------------------------------------------
+  # PostgreSQL 16 + TimescaleDB
+  # Three databases: evuno (app), evuno_auth (Keycloak), evuno_citrine (CitrineOS)
+  # ---------------------------------------------------------------------------
+  postgres:
+    image: timescale/timescaledb:latest-pg16
+    environment:
+      POSTGRES_DB: evuno
+      POSTGRES_USER: ${POSTGRES_USER:-evuno}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-evuno_dev}
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./infrastructure/postgres/init.sql:/docker-entrypoint-initdb.d/init.sql
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U evuno -d evuno"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # ---------------------------------------------------------------------------
+  # Valkey (Redis-compatible cache)
+  # ---------------------------------------------------------------------------
+  valkey:
+    image: valkey/valkey:latest
+    command: valkey-server --requirepass ${VALKEY_PASSWORD:-evuno_dev}
+    ports:
+      - "127.0.0.1:6379:6379"
+    healthcheck:
+      test: ["CMD", "valkey-cli", "-a", "${VALKEY_PASSWORD:-evuno_dev}", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # ---------------------------------------------------------------------------
+  # RabbitMQ (message broker — CitrineOS native, MQTT plugin enabled)
+  # ---------------------------------------------------------------------------
+  rabbitmq:
+    image: rabbitmq:3-management
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER:-evuno}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD:-evuno_dev}
+    ports:
+      - "127.0.0.1:5672:5672"
+      - "127.0.0.1:15672:15672"
+    volumes:
+      - ./infrastructure/rabbitmq/enabled_plugins:/etc/rabbitmq/enabled_plugins
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "check_running"]
+      interval: 10s
+      timeout: 10s
+      retries: 5
+
+  # ---------------------------------------------------------------------------
+  # MinIO (S3-compatible storage for CitrineOS)
+  # In production: replace with Cloudflare R2 (free 10GB)
+  # ---------------------------------------------------------------------------
+  minio:
+    image: minio/minio:latest
+    command: server /data --console-address ":9001"
+    environment:
+      MINIO_ROOT_USER: ${MINIO_ROOT_USER:-evuno}
+      MINIO_ROOT_PASSWORD: ${MINIO_ROOT_PASSWORD:-evuno_dev_minio}
+    ports:
+      - "127.0.0.1:9000:9000"
+      - "127.0.0.1:9001:9001"
+    volumes:
+      - minio_data:/data
+    healthcheck:
+      test: ["CMD", "mc", "ready", "local"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # ---------------------------------------------------------------------------
+  # Keycloak (auth — OIDC/SAML, multi-tenant via groups)
+  # Uses its own database: evuno_auth
+  # ---------------------------------------------------------------------------
+  keycloak:
+    image: quay.io/keycloak/keycloak:24.0
+    command: start-dev --import-realm
+    environment:
+      KC_DB: postgres
+      KC_DB_URL: jdbc:postgresql://postgres:5432/evuno_auth
+      KC_DB_USERNAME: ${POSTGRES_USER:-evuno}
+      KC_DB_PASSWORD: ${POSTGRES_PASSWORD:-evuno_dev}
+      KEYCLOAK_ADMIN: ${KEYCLOAK_ADMIN:-admin}
+      KEYCLOAK_ADMIN_PASSWORD: ${KEYCLOAK_ADMIN_PASSWORD:-admin}
+    ports:
+      - "127.0.0.1:8080:8080"
+    volumes:
+      - ./infrastructure/keycloak:/opt/keycloak/data/import
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  # ---------------------------------------------------------------------------
+  # CitrineOS (OCPP 1.6 + 2.0.1 CSMS)
+  # Standalone service — packages/ocpp/ is a REST client that calls this
+  # Uses its own database: evuno_citrine
+  # Uses MinIO for file storage
+  # ---------------------------------------------------------------------------
+  citrineos:
+    image: citrineos/citrineos:latest
+    environment:
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: evuno_citrine
+      DB_USER: ${POSTGRES_USER:-evuno}
+      DB_PASSWORD: ${POSTGRES_PASSWORD:-evuno_dev}
+      AMQP_URL: amqp://${RABBITMQ_USER:-evuno}:${RABBITMQ_PASSWORD:-evuno_dev}@rabbitmq:5672
+      S3_ENDPOINT: http://minio:9000
+      S3_ACCESS_KEY: ${MINIO_ROOT_USER:-evuno}
+      S3_SECRET_KEY: ${MINIO_ROOT_PASSWORD:-evuno_dev_minio}
+      S3_BUCKET: citrineos
+    ports:
+      - "127.0.0.1:8081:8080"
+      - "127.0.0.1:8082:8081"
+      - "127.0.0.1:9110:9110"
+    depends_on:
+      postgres:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+      minio:
+        condition: service_healthy
+
+volumes:
+  postgres_data:
+  minio_data:

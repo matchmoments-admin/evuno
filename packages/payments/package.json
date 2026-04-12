@@ -1,0 +1,16 @@
+{
+  "name": "@evuno/payments",
+  "version": "0.1.0",
+  "private": true,
+  "main": "src/index.ts",
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "stripe": "^17.0.0",
+    "@evuno/shared": "workspace:*"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0"
+  }
+}
