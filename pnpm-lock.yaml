@@ -213,6 +213,9 @@ importers:
       '@nestjs/platform-express':
         specifier: ^10.0.0
         version: 10.4.22(@nestjs/common@10.4.22(class-transformer@0.5.1)(class-validator@0.14.4)(reflect-metadata@0.2.2)(rxjs@7.8.2))(@nestjs/core@10.4.22)
+      '@types/express':
+        specifier: ^5.0.6
+        version: 5.0.6
       amqplib:
         specifier: ^0.10.0
         version: 0.10.9
@@ -222,6 +225,9 @@ importers:
       class-validator:
         specifier: ^0.14.0
         version: 0.14.4
+      drizzle-orm:
+        specifier: ^0.36.0
+        version: 0.36.4(@types/react@18.3.28)(postgres@3.4.9)(react@18.3.1)
       jwks-rsa:
         specifier: ^3.0.0
         version: 3.2.2
@@ -263,6 +269,9 @@ importers:
         specifier: ^3.4.0
         version: 3.4.9
     devDependencies:
+      '@types/node':
+        specifier: ^20.0.0
+        version: 20.19.39
       drizzle-kit:
         specifier: ^0.28.0
         version: 0.28.1

@@ -11,7 +11,7 @@ export class PaymentService {
 
   constructor(secretKey?: string) {
     this.stripe = new Stripe(secretKey ?? process.env.STRIPE_SECRET_KEY!, {
-      apiVersion: '2024-12-18.acacia',
+      apiVersion: '2025-02-24.acacia',
     });
   }
 

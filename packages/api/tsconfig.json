@@ -5,6 +5,9 @@
     "rootDir": "src",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "strictPropertyInitialization": false,
+    "declaration": false,
+    "declarationMap": false,
     "target": "ES2022",
     "module": "CommonJS",
     "moduleResolution": "node"

@@ -1,12 +1,24 @@
-import { drizzle } from 'drizzle-orm/postgres-js';
+import { drizzle, type PostgresJsDatabase } from 'drizzle-orm/postgres-js';
 import postgres from 'postgres';
-import * as schema from './index';
+import * as tenantSchema from './schema/tenants';
+import * as chargerSchema from './schema/chargers';
+import * as sessionSchema from './schema/sessions';
+import * as userSchema from './schema/users';
+import * as billingSchema from './schema/billing';
+
+const schema = {
+  ...tenantSchema,
+  ...chargerSchema,
+  ...sessionSchema,
+  ...userSchema,
+  ...billingSchema,
+};
 
 const connectionString = process.env.DATABASE_URL!;
 const sql = postgres(connectionString);
 
-export const db = drizzle(sql, { schema });
-export type Database = typeof db;
+export const db: PostgresJsDatabase<typeof schema> = drizzle(sql, { schema });
+export type Database = PostgresJsDatabase<typeof schema>;
 
 /**
  * Execute a callback within a tenant-scoped transaction.

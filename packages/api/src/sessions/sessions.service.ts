@@ -130,7 +130,7 @@ export class SessionsService {
     });
   }
 
-  async getStats(tenantId: string, days = 30) {
+  async getStats(tenantId: string, days = 30): Promise<{ summary: unknown; daily: unknown }> {
     return this.database.withTenant(tenantId, async (tx) => {
       const since = new Date();
       since.setDate(since.getDate() - days);

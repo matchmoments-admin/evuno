@@ -38,7 +38,7 @@ export class NavigateService {
       throw new Error(`Open Charge Map API error: ${response.status}`);
     }
 
-    const data = await response.json();
+    const data = (await response.json()) as unknown[];
     return this.transformOCMData(data, params);
   }
 
@@ -97,7 +97,7 @@ export class NavigateService {
       }),
     });
 
-    const createData = await createResponse.json();
+    const createData = (await createResponse.json()) as { data?: { newRoute?: string } };
     const routeId = createData?.data?.newRoute;
 
     if (!routeId) {
@@ -145,7 +145,7 @@ export class NavigateService {
       }),
     });
 
-    const resultData = await resultResponse.json();
+    const resultData = (await resultResponse.json()) as { data?: { route?: unknown } };
     return resultData?.data?.route ?? null;
   }
 
@@ -183,7 +183,7 @@ export class NavigateService {
       }),
     });
 
-    const data = await response.json();
+    const data = (await response.json()) as { data?: { vehicleList?: unknown[] } };
     return data?.data?.vehicleList ?? [];
   }
 

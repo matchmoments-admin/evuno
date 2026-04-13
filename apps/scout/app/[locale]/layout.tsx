@@ -1,7 +1,7 @@
 import { DM_Sans, DM_Mono } from 'next/font/google';
 import { NextIntlClientProvider, useMessages } from 'next-intl';
 import { setRequestLocale } from 'next-intl/server';
-import '@evuno/ui/globals.css';
+import '../globals.css';
 
 const dmSans = DM_Sans({
   subsets: ['latin'],
