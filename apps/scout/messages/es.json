@@ -1,0 +1,67 @@
+{
+  "common": {
+    "appName": "evuno Scout",
+    "loading": "Cargando...",
+    "error": "Algo sali\u00f3 mal",
+    "learnMore": "Saber M\u00e1s",
+    "getStarted": "Comenzar"
+  },
+  "home": {
+    "title": "\u00bfDeber\u00edas Instalar Cargadores EV?",
+    "subtitle": "Evaluaci\u00f3n de ROI gratuita para propietarios. Descubre si la carga de veh\u00edculos el\u00e9ctricos es rentable para tu ubicaci\u00f3n.",
+    "cta": "Calcula tu ROI",
+    "trustedBy": "Confiado por propietarios en Australia y Chile"
+  },
+  "calculator": {
+    "title": "Calculadora de ROI",
+    "subtitle": "Obt\u00e9n un an\u00e1lisis financiero detallado para carga EV en tu propiedad",
+    "country": "Pa\u00eds",
+    "propertyType": "Tipo de Propiedad",
+    "propertyTypes": {
+      "restaurant": "Restaurante",
+      "hotel": "Hotel",
+      "mall": "Centro Comercial",
+      "apartment": "Edificio de Departamentos",
+      "office": "Edificio de Oficinas",
+      "hospital": "Hospital",
+      "other": "Otro"
+    },
+    "parkingSpaces": "Total Estacionamientos",
+    "chargerType": "Tipo de Cargador",
+    "chargerCount": "N\u00famero de Cargadores",
+    "electricityRate": "Tarifa El\u00e9ctrica",
+    "sessionRate": "Tarifa por Sesi\u00f3n",
+    "utilization": "Utilizaci\u00f3n Esperada",
+    "installCost": "Costo de Instalaci\u00f3n",
+    "taxCredit": "Cr\u00e9dito Fiscal",
+    "calculate": "Calcular ROI"
+  },
+  "results": {
+    "title": "Tu Evaluaci\u00f3n de ROI",
+    "annualRevenue": "Ingresos Anuales",
+    "annualEnergyCost": "Costo Energ\u00e9tico Anual",
+    "annualMaintenance": "Mantenimiento Anual",
+    "netAnnualProfit": "Ganancia Neta Anual",
+    "installCost": "Costo Neto de Instalaci\u00f3n",
+    "paybackPeriod": "Per\u00edodo de Recuperaci\u00f3n",
+    "fiveYearProfit": "Ganancia a 5 A\u00f1os",
+    "years": "a\u00f1os",
+    "recommendation": {
+      "positive": "Inversi\u00f3n Fuerte",
+      "marginal": "Inversi\u00f3n Marginal",
+      "negative": "No Recomendado"
+    },
+    "getReport": "Obtener Informe Detallado",
+    "talkToSpecialist": "Hablar con un Especialista"
+  },
+  "lead": {
+    "title": "Obt\u00e9n tu Informe Detallado",
+    "subtitle": "Nuestro equipo preparar\u00e1 un an\u00e1lisis personalizado para tu propiedad",
+    "name": "Nombre Completo",
+    "email": "Correo Electr\u00f3nico",
+    "phone": "Tel\u00e9fono",
+    "company": "Empresa",
+    "submit": "Env\u00edame el Informe",
+    "success": "\u00a1Gracias! Nos pondremos en contacto dentro de 24 horas."
+  }
+}

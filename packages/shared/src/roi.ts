@@ -1,5 +1,11 @@
+import {
+  COUNTRY_DEFAULTS,
+  type SupportedCountry,
+} from './constants/countries';
+
 export interface ScoutInputs {
   address: string;
+  country: SupportedCountry;
   propertyType:
     | 'restaurant'
     | 'hotel'
@@ -27,6 +33,12 @@ export interface ROIResult {
   recommendation: 'positive' | 'marginal' | 'negative';
 }
 
+// Annual maintenance cost per charger by country and type
+const MAINTENANCE_COST: Record<SupportedCountry, Record<'L2' | 'DCFC', number>> = {
+  CL: { L2: 300_000, DCFC: 1_200_000 },   // CLP
+  AU: { L2: 500, DCFC: 2_000 },             // AUD
+};
+
 export function calculateROI(
   inputs: ScoutInputs & { installCostTotal: number; taxCreditPct: number },
 ): ROIResult {
@@ -43,12 +55,15 @@ export function calculateROI(
     kwhPerSession *
     inputs.electricityRate *
     365;
-  const annualMaintenance = inputs.chargerCount * 300_000; // CLP $300K per charger/yr
+  const maintenancePerCharger =
+    MAINTENANCE_COST[inputs.country]?.[inputs.chargerType] ??
+    MAINTENANCE_COST.CL[inputs.chargerType];
+  const annualMaintenance = inputs.chargerCount * maintenancePerCharger;
 
   const netAnnual = annualRevenue - annualEnergyCost - annualMaintenance;
   const netInstall =
     inputs.installCostTotal * (1 - inputs.taxCreditPct / 100);
-  const paybackYears = netInstall / netAnnual;
+  const paybackYears = netAnnual > 0 ? netInstall / netAnnual : Infinity;
   const fiveYearProfit = netAnnual * 5 - netInstall;
 
   return {

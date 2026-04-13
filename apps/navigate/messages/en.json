@@ -1,0 +1,37 @@
+{
+  "common": {
+    "appName": "evuno Navigate",
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "search": "Search for chargers...",
+    "noResults": "No chargers found"
+  },
+  "home": {
+    "title": "Find EV Chargers",
+    "subtitle": "Discover charging stations and plan your route across Chile and Australia"
+  },
+  "map": {
+    "searchPlaceholder": "Search location...",
+    "filters": "Filters",
+    "connectorType": "Connector Type",
+    "minPower": "Minimum Power",
+    "availableOnly": "Available only"
+  },
+  "charger": {
+    "available": "Available",
+    "charging": "In Use",
+    "faulted": "Out of Service",
+    "offline": "Offline",
+    "navigate": "Navigate",
+    "details": "Details",
+    "price": "Price"
+  },
+  "route": {
+    "planRoute": "Plan Route",
+    "origin": "Starting point",
+    "destination": "Destination",
+    "vehicle": "Vehicle",
+    "startingSoc": "Starting charge",
+    "chargingStops": "Charging Stops"
+  }
+}

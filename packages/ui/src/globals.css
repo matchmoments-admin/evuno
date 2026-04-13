@@ -1,0 +1,24 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --bg: #0A0A0F;
+    --surface: #111118;
+    --surface-hover: #1A1A24;
+    --border: #1E1E2E;
+    --text: #E8E8F0;
+    --text-muted: #6E6E8A;
+    --accent: #00E5A0;
+    --danger: #FF4444;
+    --warning: #FFB800;
+
+    --radius-dashboard: 6px;
+    --radius-consumer: 8px;
+  }
+
+  body {
+    @apply bg-bg text-text antialiased;
+  }
+}

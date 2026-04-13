@@ -1,0 +1,67 @@
+{
+  "common": {
+    "appName": "evuno Scout",
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "learnMore": "Learn More",
+    "getStarted": "Get Started"
+  },
+  "home": {
+    "title": "Should You Install EV Chargers?",
+    "subtitle": "Free ROI assessment for property owners. Find out if EV charging makes financial sense for your location.",
+    "cta": "Calculate Your ROI",
+    "trustedBy": "Trusted by property owners across Australia and Chile"
+  },
+  "calculator": {
+    "title": "ROI Calculator",
+    "subtitle": "Get a detailed financial assessment for EV charging at your property",
+    "country": "Country",
+    "propertyType": "Property Type",
+    "propertyTypes": {
+      "restaurant": "Restaurant",
+      "hotel": "Hotel",
+      "mall": "Shopping Mall",
+      "apartment": "Apartment Complex",
+      "office": "Office Building",
+      "hospital": "Hospital",
+      "other": "Other"
+    },
+    "parkingSpaces": "Total Parking Spaces",
+    "chargerType": "Charger Type",
+    "chargerCount": "Number of Chargers",
+    "electricityRate": "Electricity Rate",
+    "sessionRate": "Rate per Session",
+    "utilization": "Expected Utilization",
+    "installCost": "Installation Cost",
+    "taxCredit": "Tax Credit",
+    "calculate": "Calculate ROI"
+  },
+  "results": {
+    "title": "Your ROI Assessment",
+    "annualRevenue": "Annual Revenue",
+    "annualEnergyCost": "Annual Energy Cost",
+    "annualMaintenance": "Annual Maintenance",
+    "netAnnualProfit": "Net Annual Profit",
+    "installCost": "Net Installation Cost",
+    "paybackPeriod": "Payback Period",
+    "fiveYearProfit": "5-Year Profit",
+    "years": "years",
+    "recommendation": {
+      "positive": "Strong Investment",
+      "marginal": "Marginal Investment",
+      "negative": "Not Recommended"
+    },
+    "getReport": "Get Detailed Report",
+    "talkToSpecialist": "Talk to a Specialist"
+  },
+  "lead": {
+    "title": "Get Your Detailed Report",
+    "subtitle": "Our team will prepare a customized analysis for your property",
+    "name": "Full Name",
+    "email": "Email",
+    "phone": "Phone",
+    "company": "Company",
+    "submit": "Send Me the Report",
+    "success": "Thank you! We'll be in touch within 24 hours."
+  }
+}

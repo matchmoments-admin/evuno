@@ -1,0 +1,37 @@
+{
+  "common": {
+    "appName": "evuno Navigate",
+    "loading": "Cargando...",
+    "error": "Algo sali\u00f3 mal",
+    "search": "Buscar cargadores...",
+    "noResults": "No se encontraron cargadores"
+  },
+  "home": {
+    "title": "Encuentra Cargadores EV",
+    "subtitle": "Descubre estaciones de carga y planifica tu ruta en Chile y Australia"
+  },
+  "map": {
+    "searchPlaceholder": "Buscar ubicaci\u00f3n...",
+    "filters": "Filtros",
+    "connectorType": "Tipo de Conector",
+    "minPower": "Potencia M\u00ednima",
+    "availableOnly": "Solo disponibles"
+  },
+  "charger": {
+    "available": "Disponible",
+    "charging": "En Uso",
+    "faulted": "Fuera de Servicio",
+    "offline": "Desconectado",
+    "navigate": "Navegar",
+    "details": "Detalles",
+    "price": "Precio"
+  },
+  "route": {
+    "planRoute": "Planificar Ruta",
+    "origin": "Punto de partida",
+    "destination": "Destino",
+    "vehicle": "Veh\u00edculo",
+    "startingSoc": "Carga inicial",
+    "chargingStops": "Paradas de Carga"
+  }
+}

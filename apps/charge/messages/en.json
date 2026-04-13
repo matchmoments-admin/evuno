@@ -1,0 +1,49 @@
+{
+  "common": {
+    "appName": "evuno Charge",
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "back": "Back",
+    "next": "Next",
+    "search": "Search...",
+    "noResults": "No results found"
+  },
+  "nav": {
+    "overview": "Overview",
+    "chargers": "Chargers",
+    "sessions": "Sessions",
+    "billing": "Billing",
+    "settings": "Settings"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "totalChargers": "Total Chargers",
+    "activeSessions": "Active Sessions",
+    "todayRevenue": "Today's Revenue",
+    "todayEnergy": "Energy Delivered",
+    "recentSessions": "Recent Sessions"
+  },
+  "chargers": {
+    "title": "Chargers",
+    "addCharger": "Add Charger",
+    "status": {
+      "online": "Available",
+      "charging": "Charging",
+      "faulted": "Faulted",
+      "offline": "Offline"
+    }
+  },
+  "sessions": {
+    "title": "Sessions",
+    "charger": "Charger",
+    "startTime": "Start Time",
+    "duration": "Duration",
+    "energy": "Energy",
+    "cost": "Cost",
+    "status": "Status"
+  }
+}
