@@ -9,7 +9,9 @@ export const keycloakConfig = {
   userinfoUrl: `${KEYCLOAK_URL}/realms/${REALM}/protocol/openid-connect/userinfo`,
   endSessionUrl: `${KEYCLOAK_URL}/realms/${REALM}/protocol/openid-connect/logout`,
   clientId: CLIENT_ID,
-  callbackUrl: 'http://localhost:3000/auth/callback',
+  callbackUrl: process.env.NEXT_PUBLIC_APP_URL
+    ? `${process.env.NEXT_PUBLIC_APP_URL}/auth/callback`
+    : 'http://localhost:3000/auth/callback',
   scope: 'openid profile email',
 };
 

@@ -8,17 +8,30 @@ interface AuthState {
 }
 
 /**
- * Client-side auth hook that reads the Keycloak JWT from localStorage.
- * In production, the token is stored after the PKCE callback flow.
- * For development with demo data, returns null token (pages fallback to demo data).
+ * Client-side auth hook. Reads the access token from a cookie.
+ * The token is set as httpOnly by the /auth/callback route, so
+ * client JS cannot read it directly — but fetch with credentials: 'include'
+ * will send it automatically. For components that need the token value
+ * (e.g. to pass as Authorization header), we read from a non-httpOnly
+ * companion cookie or fall back gracefully.
  */
 export function useAuth(): AuthState {
   const [token, setToken] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const stored = localStorage.getItem('evuno_access_token');
-    setToken(stored);
+    // Try to read access_token from cookies (available if not httpOnly)
+    // In production the httpOnly cookie is sent automatically with credentials
+    const cookies = document.cookie.split(';').reduce(
+      (acc, c) => {
+        const [key, ...val] = c.trim().split('=');
+        acc[key] = val.join('=');
+        return acc;
+      },
+      {} as Record<string, string>,
+    );
+
+    setToken(cookies['access_token'] ?? null);
     setLoading(false);
   }, []);
 

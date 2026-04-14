@@ -19,9 +19,30 @@ export function generateStaticParams() {
   return [{ locale: 'en' }, { locale: 'es' }];
 }
 
-export const metadata = {
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
   title: 'evuno Scout — EV Charger ROI Calculator',
-  description: 'Free ROI assessment tool for property owners considering EV charger installation.',
+  description: 'Free ROI assessment tool for property owners considering EV charger installation in Chile and Australia.',
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SCOUT_URL ?? 'https://scout.evuno.co'),
+  openGraph: {
+    title: 'evuno Scout — Should You Install EV Chargers?',
+    description: 'Free ROI assessment for property owners. Calculate payback period, annual revenue, and 5-year profit for EV charging stations.',
+    siteName: 'evuno Scout',
+    type: 'website',
+    locale: 'en',
+    alternateLocale: 'es',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'evuno Scout — EV Charger ROI Calculator',
+    description: 'Free ROI assessment for property owners in Chile and Australia.',
+  },
+  alternates: {
+    canonical: '/',
+    languages: { en: '/en', es: '/es' },
+  },
+  robots: { index: true, follow: true },
 };
 
 export default function LocaleLayout({

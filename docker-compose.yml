@@ -6,7 +6,7 @@ services:
   # Three databases: evuno (app), evuno_auth (Keycloak), evuno_citrine (CitrineOS)
   # ---------------------------------------------------------------------------
   postgres:
-    image: timescale/timescaledb:latest-pg16
+    image: timescale/timescaledb:2.17.2-pg16
     environment:
       POSTGRES_DB: evuno
       POSTGRES_USER: ${POSTGRES_USER:-evuno}
@@ -23,10 +23,10 @@ services:
       retries: 5
 
   # ---------------------------------------------------------------------------
-  # Valkey (Redis-compatible cache)
+  # Valkey (Redis-compatible cache) — pinned to 8.0 for CVE-2025-49844 fix
   # ---------------------------------------------------------------------------
   valkey:
-    image: valkey/valkey:latest
+    image: valkey/valkey:8.0
     command: valkey-server --requirepass ${VALKEY_PASSWORD:-evuno_dev}
     ports:
       - "127.0.0.1:6379:6379"
@@ -77,11 +77,11 @@ services:
       retries: 5
 
   # ---------------------------------------------------------------------------
-  # Keycloak (auth — OIDC/SAML, multi-tenant via groups)
-  # Uses its own database: evuno_auth
+  # Keycloak 26 (auth — OIDC/SAML, multi-tenant via groups)
+  # Upgraded from 24.0 (EOL) to 26.0 for 30+ CVE patches
   # ---------------------------------------------------------------------------
   keycloak:
-    image: quay.io/keycloak/keycloak:24.0
+    image: quay.io/keycloak/keycloak:26.0
     command: start --import-realm --hostname-strict=false --http-enabled=true --proxy-headers=xforwarded
     environment:
       KC_DB: postgres
@@ -96,6 +96,12 @@ services:
       - "127.0.0.1:8080:8080"
     volumes:
       - ./infrastructure/keycloak:/opt/keycloak/data/import
+    healthcheck:
+      test: ["CMD-SHELL", "exec 3<>/dev/tcp/localhost/8080 && echo -e 'GET /health/ready HTTP/1.1\\r\\nHost: localhost\\r\\n\\r\\n' >&3 && cat <&3 | grep -q 'UP'"]
+      interval: 10s
+      timeout: 10s
+      retries: 10
+      start_period: 60s
     depends_on:
       postgres:
         condition: service_healthy
@@ -103,8 +109,6 @@ services:
   # ---------------------------------------------------------------------------
   # CitrineOS (OCPP 1.6 + 2.0.1 CSMS)
   # Standalone service — packages/ocpp/ is a REST client that calls this
-  # Uses its own database: evuno_citrine
-  # Uses MinIO for file storage
   # ---------------------------------------------------------------------------
   citrineos:
     image: ghcr.io/citrineos/citrineos-server:latest
@@ -125,6 +129,8 @@ services:
       - "127.0.0.1:9110:9110"
     depends_on:
       postgres:
+        condition: service_healthy
+      keycloak:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy
