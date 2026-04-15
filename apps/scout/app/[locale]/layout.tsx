@@ -57,6 +57,33 @@ export default function LocaleLayout({
 
   return (
     <html lang={locale} className="dark">
+      <head>
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify({
+              '@context': 'https://schema.org',
+              '@graph': [
+                {
+                  '@type': 'Organization',
+                  name: 'evuno',
+                  url: 'https://evuno.co',
+                  description: 'EV charging platform for operators and drivers in Chile and Australia',
+                },
+                {
+                  '@type': 'SoftwareApplication',
+                  name: 'evuno Scout',
+                  applicationCategory: 'BusinessApplication',
+                  operatingSystem: 'Web',
+                  description: 'Free ROI calculator for EV charger installation. Estimate payback period, annual revenue, and 5-year profit.',
+                  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
+                  author: { '@type': 'Organization', name: 'evuno' },
+                },
+              ],
+            }),
+          }}
+        />
+      </head>
       <body className={`${dmSans.variable} ${dmMono.variable} font-sans bg-bg text-text min-h-screen`}>
         <NextIntlClientProvider messages={messages}>
           {children}
