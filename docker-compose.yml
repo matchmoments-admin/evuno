@@ -23,10 +23,10 @@ services:
       retries: 5
 
   # ---------------------------------------------------------------------------
-  # Valkey (Redis-compatible cache) — pinned to 8.0 for CVE-2025-49844 fix
+  # Valkey (Redis-compatible cache) — pinned to 8.1 for CVE-2025-49844 fix
   # ---------------------------------------------------------------------------
   valkey:
-    image: valkey/valkey:8.0
+    image: valkey/valkey:8.1
     command: valkey-server --requirepass ${VALKEY_PASSWORD:-evuno_dev}
     ports:
       - "127.0.0.1:6379:6379"
@@ -78,10 +78,10 @@ services:
 
   # ---------------------------------------------------------------------------
   # Keycloak 26 (auth — OIDC/SAML, multi-tenant via groups)
-  # Upgraded from 24.0 (EOL) to 26.0 for 30+ CVE patches
+  # Upgraded from 24.0 (EOL) → 26.0 → 26.2 for CVE patches (SSRF, privilege escalation, token bypass)
   # ---------------------------------------------------------------------------
   keycloak:
-    image: quay.io/keycloak/keycloak:26.0
+    image: quay.io/keycloak/keycloak:26.2
     command: start --import-realm --hostname-strict=false --http-enabled=true --proxy-headers=xforwarded
     environment:
       KC_DB: postgres
@@ -127,6 +127,12 @@ services:
       - "127.0.0.1:8081:8080"
       - "127.0.0.1:8082:8081"
       - "127.0.0.1:9110:9110"
+    healthcheck:
+      test: ["CMD-SHELL", "curl -sf http://localhost:8080/health || exit 1"]
+      interval: 15s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
     depends_on:
       postgres:
         condition: service_healthy
